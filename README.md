@@ -1,12 +1,12 @@
 # Band Sight Reading
 
-A static sight-reading exercise generator for beginning band. Five synchronized class parts or one instrument part, eight levels, four or eight measures, reference audio, and an optional timed play-along. Exercises run in the browser; no account, backend, database, or API key is needed.
+A static sight-reading exercise generator for beginning band. Six synchronized class parts or one instrument part, eight levels, four or eight measures, reference audio, and an optional timed play-along. Exercises run in the browser; no account, backend, database, or API key is needed.
 
 ## Classroom use
 
-For a teacher-led projection, open the site and use **Class mode**. For students, choose **Instrument mode**, set the instrument, level, and length, then click **Copy student link**. Post the link as a Google Classroom material or assignment. Students get a new random exercise each visit. The link presets settings, but it does not preserve a particular generated exercise or collect submissions.
+For a teacher-led projection, open the site and use **Class mode**. For students, post the public site address in Google Classroom. Students choose **Instrument mode**, their instrument, level, and length. They get a new random exercise each visit. The app does not preserve a particular generated exercise or collect submissions.
 
-The in-progress ChatGPT Sites preview is owner-restricted. To give students access, publish the files in `dist/` at the root of a public static host such as GitHub Pages, then copy the student link from that public address. Do not post the owner-only preview as a student assignment.
+The in-progress ChatGPT Sites preview is owner-restricted. To give students access, publish the files in `dist/` at the root of a public static host such as GitHub Pages, then post that public address. Do not post the owner-only preview as a student assignment.
 
 ## Run and verify
 
@@ -27,3 +27,5 @@ The note ranges follow the previous Concert B-flat Scale Quest. Clarinet's last 
 The reference sound is a synthesized piano-like tone, not a MIDI file. The bottom Playback volume slider begins at 100%, which equals the previous maximum reference level, and can lower or mute the piano-like reference without changing metronome clicks. The app does not listen to students, grade performances, save results, or submit to Google Classroom. A small screen may make all eight class measures too small; project class mode, and use instrument mode for personal devices.
 
 The treble and bass clef outlines come from Steinberg Bravura and are redistributed under the included SIL Open Font License (`BRAVURA-LICENSE.txt`).
+
+The browser-tab icon is `favicon.svg`, drawn from the licensed Bravura treble clef outline.

@@ -1,13 +1,13 @@
 # Band Sight Reading — product and code audit
 
 **Audit date:** September 24, 2026  
-**Scope:** The current static site in this package, including the eight-level generator, notation, audio, class/instrument views, tests, and the student-link flow. This is an audit of the current source, not a claim that every browser, device, and speaker has been tested.
+**Scope:** The current static site in this package, including the eight-level generator, notation, audio, class/instrument views, tests, and the instrument-mode flow. This is an audit of the current source, not a claim that every browser, device, and speaker has been tested.
 
 ## Plain-language verdict
 
 | Question | Answer | Practical condition |
 |---|---|---|
-| Can a student with little technical experience use it from Google Classroom? | **Mostly yes, after publishing a student-accessible copy.** | The teacher selects an instrument, level, and length, copies the student link, and posts it. The student opens a preset single-part page. The current workshop preview is owner-restricted, so students cannot use that particular link. The app does not submit work or grades to Classroom. |
+| Can a student with little technical experience use it from Google Classroom? | **Mostly yes, after publishing a student-accessible copy.** | The teacher posts a public site link; each student selects Instrument mode, their part, level, and length. The Copy student link control has been removed. The current workshop preview is owner-restricted, so students cannot use that particular link. The app does not submit work or grades to Classroom. |
 | Does it need my own server or bucket? | **No separate application server or storage bucket.** | Static HTML, CSS, and JavaScript run in the student's browser. It still needs an accessible web host, such as GitHub Pages. Keep the repository and a backup; no outside host is guaranteed forever. |
 | Could it later become a desktop app or larger student platform? | **Yes, with further work.** | The music rules now live in a browser-independent module. A desktop shell can reuse them. Accounts, grading, microphone input, saved assignments, and synchronized teacher/student exercises would be new features, likely with storage and a service. |
 
@@ -18,8 +18,8 @@
 | `dist/index.html` | One-page classroom interface and controls. |
 | `dist/style.css` | Projector and instrument layouts, responsive styling, dark mode, active states. |
 | `dist/core.mjs` | Pure scale data, level rules, pitch math, and random exercise generation. No browser APIs. |
-| `dist/clefs.mjs` and `dist/BRAVURA-LICENSE.txt` | Licensed treble/bass clef outlines and their attribution. |
-| `dist/app.js` | Score drawing, audio, timers, modes, controls, and student links. |
+| `dist/clefs.mjs`, `dist/favicon.svg`, and `dist/BRAVURA-LICENSE.txt` | Licensed clef outlines, browser-tab icon, and attribution. |
+| `dist/app.js` | Score drawing, audio, timers, modes, and controls. |
 | `dist/checks.mjs` and `dist/checks.html` | In-browser test page at `/checks.html`; runs music-rule checks and interface smoke checks with pass/fail output. |
 | `tests/core.test.mjs` and `tests/ui.test.mjs` | Repeatable Node test suite; run `node --test tests/*.test.mjs`. |
 | `README.md` | Classroom, deployment, local-run, and limitation instructions. |
@@ -35,7 +35,7 @@ There is no framework, build step, external script, paid API, database, analytic
 - “Hear this exercise” plays a soft, synthesized piano-like concert reference. The next Proceed click makes a new exercise; double-click skips reference playback. Class mode also has an explicit **New exercise · skip audio** button.
 - Instrument mode has a 48–172 BPM slider, four-count play-along, note highlight tracker, and metronome. The tracker starts on; play-along automatically uses one click stream and temporarily disables the separate metronome. Class mode hides the slider; the metronome remains available at the current tempo (68 BPM on first load).
 - Dark mode persists on that device via `localStorage`. No exercise, score, name, recording, or student result is saved.
-- A teacher can copy a URL that presets instrument, level, and number of bars. The student receives a *new random exercise* when opening it; the link does not encode a fixed melody.
+- A student can open the public site and select Instrument mode and settings. The app creates a *new random exercise*; the main interface no longer has a link-copy button. Previously formed preset URLs still load, but the interface does not create them.
 
 ## Findings and changes applied
 
@@ -43,19 +43,19 @@ There is no framework, build step, external script, paid API, database, analytic
 |---|---|---|
 | High | Workshop site is restricted to its owner. A Google Classroom student link pointing there is unusable for other students. | **Documented.** Publish the supplied files to a student-accessible static host before assigning. Access settings were not silently changed. |
 | High | The previous root ZIP and README described an older build and could mislead GitHub Pages setup. | **Addressed in this package.** The updated GitHub ZIP puts `index.html` at its root and includes the current tests and instructions. |
-| Medium | Students opening the default URL land in class mode and must navigate controls. | **Fixed.** A teacher can copy a preset instrument-mode link. Invalid link settings are ignored safely. |
+| Medium | Students opening the default URL land in class mode and must navigate controls. | **Current behavior.** Students select Instrument mode and settings; there is no Copy student link button. Previously formed preset URLs still load, and invalid settings are ignored safely. |
 | Medium | Music rules and UI were intertwined, making later reuse difficult. | **Fixed.** Generator, scale data, and pitch helpers moved to a pure module; interface behavior remains separate. |
 | Medium | Exercise generation moved its pitch position even when it inserted a rest. | **Fixed.** Rests no longer silently change the next note's pitch choice. |
 | Medium | Earlier CSS held unused layout and highlight selectors from previous revisions. | **Fixed.** Removed abandoned wide-layout rules, old staff sizes, and unused color/active-stem rules. |
 | Medium | Clarinet's below-the-break ending is not the trumpet's usual ascending ending. | **Fixed.** Class mode now shows separate B-flat lines: clarinet wraps to B3/C4; trumpet ascends to B4/C5. They keep the same rhythm and pitch classes, with different written registers at the end. |
 | Medium | No fixed assignment, performance capture, submission, or teacher results. | **Known scope.** Google Classroom can distribute the link, but cannot receive a score from this app. Plan separate assignment and result features only if needed. |
 | Low | Metronome, countdown, and visual tracker depend partly on browser timers; timing can vary under heavy device load. | **Known limit.** Fine for guided practice, not a measurement or grading instrument. Confirm on actual classroom devices and speakers. |
-| Low | All six eight-bar staves are forced onto one line for the teacher's preference; phones can render them too small. | **Known layout tradeoff.** Share an instrument-mode link to student devices. |
+| Low | All six eight-bar staves are forced onto one line for the teacher's preference; phones can render them too small. | **Known layout tradeoff.** Students use Instrument mode on personal devices. |
 
 ## Verification performed
 
 - `node --check dist/app.js` passed.
-- `node --test tests/*.test.mjs` passed **13/13** checks. The generator checks every level at 4 and 8 measures across 100 repeatable random seeds per combination; they confirm four beats per bar, allowed ranges, paired eighths, quarter-rest restrictions, and level-specific markings. Interface checks cover a preset student link, six class staffs, eight bars per staff, skip-audio generation, courtesy accidental rules, tempo range, playback volume routing, and accidentals staying in their own measures.
+- `node --test tests/*.test.mjs` passed **12/12** checks. The generator checks every level at 4 and 8 measures across 100 repeatable random seeds per combination; they confirm four beats per bar, allowed ranges, paired eighths, quarter-rest restrictions, and level-specific markings. Interface checks cover a preset URL, six class staffs, eight bars per staff, skip-audio generation, courtesy accidental rules, tempo range, playback volume routing, and accidentals staying in their own measures.
 - The browser-facing `/checks.html` page is included to repeat core and interface smoke checks without a terminal. Its presence was reviewed in source; a real browser visual/audio pass was **not available in this audit environment**, so the final projector appearance, sound level, Google Classroom access, and browser timer behavior still need an on-device trial.
 - The checks do not assess musical taste or whether generated lines sound like deliberate melodies. Generation produces short, bounded random exercises, not composed etudes.
 
@@ -76,3 +76,7 @@ The text-font clefs were replaced with larger Bravura vector outlines. Treble cu
 ## Playback volume refinement after the audit
 
 The bottom slider starts at 100% of the previous reference volume and can only reduce it. It adjusts the reference audio live, while metronome clicks keep their existing level. The reference playback path was also corrected to use the shared scale data; a focused audio-path check now covers the slider and separation from the metronome.
+
+## Browser-tab icon and simpler controls
+
+A compact treble-clef favicon was added using the existing licensed glyph. The Copy student link button and its clipboard handler were removed. Students use a publicly accessible site link and choose their own part and settings; preset URLs from earlier versions continue to work.
