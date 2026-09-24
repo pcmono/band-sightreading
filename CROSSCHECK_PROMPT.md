@@ -1,0 +1,18 @@
+# Independent cross-check prompt
+
+Copy the prompt below into another AI session and provide it the updated GitHub ZIP **and** `AUDIT.md`. Ask it to inspect the actual files, not just this report.
+
+---
+
+You are independently auditing a small beginning-band sight-reading web app. Do not trust the supplied audit or its tests. Inspect every source file and the published package. Prioritize classroom simplicity and musical correctness over extra features.
+
+1. Map the complete app: files, data flow, user modes, eight levels, notation and transposition, sound/timing, generated exercises, deep links, dark mode, test page, hosting requirements, third-party dependencies, persistence, and privacy.
+2. Independently reproduce these flows: class mode with 4 and 8 measures; all six parts; separate clarinet and trumpet lines; instrument mode for each instrument; 48 and 172 BPM; metronome and play-along; reference playback, replay, Proceed and double-click, skip-audio button; levels 1–8; courtesy accidentals on 1–6 only; dark mode; copied student link in a fresh browser session.
+3. Test music rules with varied random seeds. Every measure must total four beats. Eighths must be paired within a beat, with no isolated, triple, or eighth–quarter–eighth grouping in two beats. Confirm the exact concert note sets, key signatures, courtesy accidental placement, octave/register choices, beam and stem direction, high flute clearance, and what happens at barlines. Examine compressed eight-measure scores for collisions.
+4. Compare each separate class B-flat staff with its matching individual B-flat part, especially scale degrees 7 and 8. State explicitly whether students play the same sounding pitches and register, and whether either part violates the clarinet below-the-break requirement. Do not assume the claim in the report is correct.
+5. Assess a low-tech student opening a link from Google Classroom. Verify whether the particular host is accessible to students, whether a link presets the teacher's intended settings, whether a fixed assignment is possible, and whether the teacher gets submissions or results. Separate app functionality from Classroom functionality.
+6. Determine whether this exact release can run unchanged on GitHub Pages or another static host, including relative file paths and module loading. Explain the host needed and whether any ongoing server, bucket, account, build, or API key is required. Do not promise perpetual availability.
+7. Judge how easily `core.mjs` could be reused in a desktop GUI or a larger framework. Identify remaining coupling, risks, unused code, missing meaningful tests, accessibility concerns, and browser/device limitations. Try the `/checks.html` GUI test page and the Node tests. Inspect code for cases where tests merely repeat assumptions or fail to test the real interface.
+8. Report each discrepancy with severity, exact file/line or reproduction steps, expected versus actual behavior, and the smallest effective fix. Distinguish observed failures from risks or preferences. Recommend only changes that improve classroom use or correctness. End with three plain-language answers: Google Classroom usability, long-term self-hosting, and future desktop/framework reuse.
+
+Return a concise executive summary followed by a detailed findings table and a list of tests actually run. Be candid about what you could not verify, especially browser sound and accessibility on real classroom devices.
