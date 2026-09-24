@@ -50,12 +50,12 @@ There is no framework, build step, external script, paid API, database, analytic
 | Medium | Clarinet's below-the-break ending is not the trumpet's usual ascending ending. | **Fixed.** Class mode now shows separate B-flat lines: clarinet wraps to B3/C4; trumpet ascends to B4/C5. They keep the same rhythm and pitch classes, with different written registers at the end. |
 | Medium | No fixed assignment, performance capture, submission, or teacher results. | **Known scope.** Google Classroom can distribute the link, but cannot receive a score from this app. Plan separate assignment and result features only if needed. |
 | Low | Metronome, countdown, and visual tracker depend partly on browser timers; timing can vary under heavy device load. | **Known limit.** Fine for guided practice, not a measurement or grading instrument. Confirm on actual classroom devices and speakers. |
-| Low | All six eight-bar staves are forced onto one line for the teacher's preference; phones can render them too small. | **Known layout tradeoff.** Students use Instrument mode on personal devices. |
+| Low | Eight-bar staves fit one line with no score scrollbar; phones can render notes too small. | **Known layout tradeoff.** Use a larger display for eight measures when readability matters. |
 
 ## Verification performed
 
 - `node --check dist/app.js` passed.
-- `node --test tests/*.test.mjs` passed **12/12** checks. The generator checks every level at 4 and 8 measures across 100 repeatable random seeds per combination; they confirm four beats per bar, allowed ranges, paired eighths, quarter-rest restrictions, and level-specific markings. Interface checks cover a preset URL, six class staffs, eight bars per staff, skip-audio generation, courtesy accidental rules, tempo range, playback volume routing, and accidentals staying in their own measures.
+- `node --test tests/*.test.mjs` passed **14/14** checks. The generator checks every level at 4 and 8 measures across 100 repeatable random seeds per combination; they confirm four beats per bar, allowed ranges, paired eighths, quarter-rest restrictions, and level-specific markings. Interface checks cover a preset URL, six class staffs, eight bars per staff, skip-audio generation, courtesy accidental rules, tempo range, playback volume routing, and accidentals staying in their own measures.
 - The browser-facing `/checks.html` page is included to repeat core and interface smoke checks without a terminal. Its presence was reviewed in source; a real browser visual/audio pass was **not available in this audit environment**, so the final projector appearance, sound level, Google Classroom access, and browser timer behavior still need an on-device trial.
 - The checks do not assess musical taste or whether generated lines sound like deliberate melodies. Generation produces short, bounded random exercises, not composed etudes.
 
@@ -80,3 +80,7 @@ The bottom slider starts at 100% of the previous reference volume and can only r
 ## Browser-tab icon and simpler controls
 
 A compact treble-clef favicon was added using the existing licensed glyph. The Copy student link button and its clipboard handler were removed. Students use a publicly accessible site link and choose their own part and settings; preset URLs from earlier versions continue to work.
+
+## Score scrolling update
+
+The written music now fits the available score width in both modes, without a horizontal scrollbar. Tempo and playback-volume sliders remain because they control audio. At narrow widths an eight-measure line may be small; this is a readability tradeoff rather than clipped notation.

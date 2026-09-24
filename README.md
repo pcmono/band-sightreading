@@ -24,7 +24,7 @@ All exercises are 4/4 in concert B-flat major. Levels 1–3 have three notes (B-
 
 The note ranges follow the previous Concert B-flat Scale Quest. Clarinet's last two scale degrees wrap to B3 and C4 to remain below the break. Class mode and instrument mode now show separate B-flat lines: clarinet wraps to B3/C4 below the break, while trumpet ascends to B4/C5. Both derive from the same exercise and share the same rhythm and pitch classes.
 
-The reference sound is a synthesized piano-like tone, not a MIDI file. The bottom Playback volume slider begins at 100%, which equals the previous maximum reference level, and can lower or mute the piano-like reference without changing metronome clicks. The app does not listen to students, grade performances, save results, or submit to Google Classroom. A small screen may make all eight class measures too small; project class mode, and use instrument mode for personal devices.
+The reference sound is a synthesized piano-like tone, not a MIDI file. The bottom Playback volume slider begins at 100%, which equals the previous maximum reference level, and can lower or mute the piano-like reference without changing metronome clicks. The app does not listen to students, grade performances, save results, or submit to Google Classroom. All written music fits within its score area without a horizontal scrollbar. Eight measures can become small on a narrow screen, so a larger screen is better for reading.
 
 The treble and bass clef outlines come from Steinberg Bravura and are redistributed under the included SIL Open Font License (`BRAVURA-LICENSE.txt`).
 
