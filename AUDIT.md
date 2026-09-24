@@ -18,6 +18,7 @@
 | `dist/index.html` | One-page classroom interface and controls. |
 | `dist/style.css` | Projector and instrument layouts, responsive styling, dark mode, active states. |
 | `dist/core.mjs` | Pure scale data, level rules, pitch math, and random exercise generation. No browser APIs. |
+| `dist/clefs.mjs` and `dist/BRAVURA-LICENSE.txt` | Licensed treble/bass clef outlines and their attribution. |
 | `dist/app.js` | Score drawing, audio, timers, modes, controls, and student links. |
 | `dist/checks.mjs` and `dist/checks.html` | In-browser test page at `/checks.html`; runs music-rule checks and interface smoke checks with pass/fail output. |
 | `tests/core.test.mjs` and `tests/ui.test.mjs` | Repeatable Node test suite; run `node --test tests/*.test.mjs`. |
@@ -54,7 +55,7 @@ There is no framework, build step, external script, paid API, database, analytic
 ## Verification performed
 
 - `node --check dist/app.js` passed.
-- `node --test tests/*.test.mjs` passed **12/12** checks. The generator checks every level at 4 and 8 measures across 100 repeatable random seeds per combination; they confirm four beats per bar, allowed ranges, paired eighths, quarter-rest restrictions, and level-specific markings. Interface checks cover a preset student link, six class staffs, eight bars per staff, skip-audio generation, courtesy accidental rules, tempo range, and accidentals staying in their own measures.
+- `node --test tests/*.test.mjs` passed **13/13** checks. The generator checks every level at 4 and 8 measures across 100 repeatable random seeds per combination; they confirm four beats per bar, allowed ranges, paired eighths, quarter-rest restrictions, and level-specific markings. Interface checks cover a preset student link, six class staffs, eight bars per staff, skip-audio generation, courtesy accidental rules, tempo range, playback volume routing, and accidentals staying in their own measures.
 - The browser-facing `/checks.html` page is included to repeat core and interface smoke checks without a terminal. Its presence was reviewed in source; a real browser visual/audio pass was **not available in this audit environment**, so the final projector appearance, sound level, Google Classroom access, and browser timer behavior still need an on-device trial.
 - The checks do not assess musical taste or whether generated lines sound like deliberate melodies. Generation produces short, bounded random exercises, not composed etudes.
 
@@ -67,3 +68,11 @@ At the time of audit, [GitHub's documentation](https://docs.github.com/en/pages/
 ## Next technical direction, only if the classroom need arises
 
 Reuse `core.mjs` as the music engine in a desktop wrapper or another web framework. Keep score display and audio as separate adapters. To assign *the exact same line* to everyone, add a seed or serialized exercise to the link and test that it reproduces identically. To collect work, design student identity, consent, recordings/results, teacher review, storage, and school data rules before adding a backend. Avoid moving to a framework merely for hosting; the current static app is simpler to maintain.
+
+## Clef refinement after the audit
+
+The text-font clefs were replaced with larger Bravura vector outlines. Treble curls around the G line; bass dots straddle the F line. The reference images were inspected and rendered staff samples were checked. The bundled font license is included. The repeatable interface check now verifies the presence and placement transforms of both clefs; this does not replace a final check on the classroom projector.
+
+## Playback volume refinement after the audit
+
+The bottom slider starts at 100% of the previous reference volume and can only reduce it. It adjusts the reference audio live, while metronome clicks keep their existing level. The reference playback path was also corrected to use the shared scale data; a focused audio-path check now covers the slider and separation from the metronome.
